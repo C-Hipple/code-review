@@ -42,6 +42,7 @@
 (require 'code-review-github)
 (require 'code-review-gitlab)
 (require 'code-review-bitbucket)
+(require 'magit-delta)
 
 (defcustom code-review-section-indent-width 1
   "Indent width for nested sections."
@@ -1314,6 +1315,7 @@ Optionally DELETE? flag must be set if you want to remove it."
   ;;; hunk groups are necessary because we usually have multiple reviews about
   ;;; the same original position across different commits snapshots.
   ;;; as github UI we will add those hunks and its comments
+  (add-hook 'magit-diff-wash-diffs-hook #'magit-delta-call-delta-and-convert-ansi-escape-sequences)
   (let* ((hunk-groups (-group-by (lambda (el) (oref el diffHunk)) comments))
          (hunks (a-keys hunk-groups))
          (amount-loc-internal amount-loc))
