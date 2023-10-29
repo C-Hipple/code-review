@@ -115,6 +115,7 @@ OUTDATED."
 (defun code-review-start (url)
   "Start review given PR URL."
   (interactive "sURL to review: ")
+  (add-hook 'magit-diff-wash-diffs-hook #'magit-delta-call-delta-and-convert-ansi-escape-sequences)
   (let ((code-review-section-full-refresh? t))
     (code-review-auth-source-debug)
     (code-review-utils-build-obj-from-url url)
