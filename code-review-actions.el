@@ -209,9 +209,9 @@ Optionally set a FEEDBACK message."
                 (not .commit.statusCheckRollup))
             (code-review--submit "APPROVE" feedback))
            (code-review-always-restrict-approval?
-            (message "PR have CI issues. You cannot approve it."))
+            (message "PR has CI issues. You cannot approve it."))
            (t
-            (let ((res (y-or-n-p "PR have CI issues.  Do you want to proceed? ")))
+            (let ((res (y-or-n-p "PR has CI issues.  Do you want to proceed? ")))
               (if res
                   (code-review--submit "APPROVE" feedback)
                 (message "Approval process canceled."))))))
