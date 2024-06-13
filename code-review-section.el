@@ -42,6 +42,7 @@
 (require 'code-review-github)
 (require 'code-review-gitlab)
 (require 'code-review-bitbucket)
+(require 'magit-delta)
 
 (defcustom code-review-section-indent-width 1
   "Indent width for nested sections."
@@ -1452,7 +1453,6 @@ A quite good assumption: every comment in an outdated hunk will be outdated."
     (file orig status modes rename header binary long-status)
   "Overwrite the original Magit function on `magit-diff.el' FILE.
 ORIG, STATUS, MODES, RENAME, HEADER, BINARY and LONG-STATUS are arguments of the original fn."
-
   ;;; --- beg -- code-review specific code.
   ;;; I need to set a reference point for the first hunk header
   ;;; so the positioning of comments is done correctly.
@@ -1600,7 +1600,7 @@ If you want to display a minibuffer MSG in the end."
       (progn
         ;; advices
         (advice-add 'magit-diff-insert-file-section :override #'code-review-section--magit-diff-insert-file-section)
-        (advice-add 'magit-diff-wash-hunk :override #'code-review-section--magit-diff-wash-hunk)
+        (advice-add 'magit-diff-wash-hunk :override #'magit-delta-call-delta-and-convert-ansi-escape-sequences)
 
         (setq code-review-section-grouped-comments
               (code-review-utils-make-group
