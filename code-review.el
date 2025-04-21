@@ -116,6 +116,8 @@ OUTDATED."
   "Start review given PR URL."
   (interactive "sURL to review: ")
   (let ((code-review-section-full-refresh? t))
+    (code-review-utils--log "-------------------" "---------------------------")
+    (code-review-utils--log "code-review--start " url)
     (code-review-auth-source-debug)
     (code-review-utils-build-obj-from-url url)
     (code-review--build-buffer
