@@ -266,7 +266,7 @@ INDENT count of spaces are added at the start of every line."
                               'keymap 'code-review-author-section-map))
           (insert ?\n))))))
 
- (defclass code-review-title-section (magit-section)
+(defclass code-review-title-section (magit-section)
   ((keymap  :initform 'code-review-title-section-map)
    (title  :initform nil
            :type (or null string))))
@@ -641,54 +641,54 @@ INDENT count of spaces are added at the start of every line."
                    (msg (a-get-in c (list 'commit 'message)))
                    (obj (code-review-commit-section :sha sha :msg msg)))
               (magit-insert-section commit-section (code-review-commit-section obj)
-                (if (and (code-review-github-repo-p pr) .commit.statusCheckRollup.contexts.nodes)
-                    (progn
-                      (insert (format "%s%s %s "
-                                      (propertize (format "%-6s " (oref obj sha)) 'font-lock-face 'magit-hash)
-                                      (car (split-string (oref obj msg) "\n"))
-                                      (if (string-equal .commit.statusCheckRollup.state "SUCCESS")
-                                          ":white_check_mark:"
-                                        ":x:")))
-                      (insert
-                       (propertize "Expand for Details:" 'font-lock-face 'code-review-checker-detail-face))
-                      (oset commit-section hidden t)
-                      (magit-insert-heading)
-                      (when (> (length (split-string (oref obj msg) "\n")) 1)
-                        (insert (oref obj msg))
-                        (insert "\n"))
-                      (dolist (check .commit.statusCheckRollup.contexts.nodes)
-                        (let-alist check
-                          (let ((obj (code-review-commit-check-detail-section :check check :details .detailsUrl)))
-                            (magit-insert-section (code-review-commit-check-detail-section obj)
-                              (if (string-equal .conclusion "SUCCESS")
-                                  (progn
-                                    (insert (propertize (format "%-7s %s / %s" "" .checkSuite.workflowRun.workflow.name .name)
-                                                        'font-lock-face 'code-review-checker-name-face))
-                                    (insert " - ")
-                                    (insert (propertize (format "%s  " (format "Successful in %s."
-                                                                               (code-review-utils--elapsed-time .completedAt .startedAt)))
-                                                        'font-lock-face 'magit-dimmed))
-                                    (insert (propertize ":white_check_mark: Details"
-                                                        'font-lock-face 'code-review-checker-detail-face
-                                                        'mouse-face 'highlight
-                                                        'help-echo "Visit the page for details"
-                                                        'keymap 'code-review-commit-check-detail-section-map)))
-                                (progn
-                                  (insert (propertize (format "%-7s %s / %s" "" .checkSuite.workflowRun.workflow.name .title)
-                                                      'font-lock-face 'code-review-checker-name-face))
-                                  (insert " - ")
-                                  (insert (propertize (format "%s  " .summary)
-                                                      'font-lock-face 'magit-dimmed))
-                                  (insert (propertize ":x: Details"
-                                                      'font-lock-face 'code-review-checker-detail-face
-                                                      'mouse-face 'highlight
-                                                      'help-echo "Visit the page for details"
-                                                      'keymap 'code-review-commit-check-detail-section-map))))))
-                          (insert "\n"))))
-                  (progn
-                    (insert (propertize (format "%-6s " (oref obj sha)) 'font-lock-face 'magit-hash))
-                    (insert (oref obj msg))
-                    (insert ?\n)))))))
+                                    (if (and (code-review-github-repo-p pr) .commit.statusCheckRollup.contexts.nodes)
+                                        (progn
+                                          (insert (format "%s%s %s "
+                                                          (propertize (format "%-6s " (oref obj sha)) 'font-lock-face 'magit-hash)
+                                                          (car (split-string (oref obj msg) "\n"))
+                                                          (if (string-equal .commit.statusCheckRollup.state "SUCCESS")
+                                                              ":white_check_mark:"
+                                                            ":x:")))
+                                          (insert
+                                           (propertize "Expand for Details:" 'font-lock-face 'code-review-checker-detail-face))
+                                          (oset commit-section hidden t)
+                                          (magit-insert-heading)
+                                          (when (> (length (split-string (oref obj msg) "\n")) 1)
+                                            (insert (oref obj msg))
+                                            (insert "\n"))
+                                          (dolist (check .commit.statusCheckRollup.contexts.nodes)
+                                            (let-alist check
+                                              (let ((obj (code-review-commit-check-detail-section :check check :details .detailsUrl)))
+                                                (magit-insert-section (code-review-commit-check-detail-section obj)
+                                                  (if (string-equal .conclusion "SUCCESS")
+                                                      (progn
+                                                        (insert (propertize (format "%-7s %s / %s" "" .checkSuite.workflowRun.workflow.name .name)
+                                                                            'font-lock-face 'code-review-checker-name-face))
+                                                        (insert " - ")
+                                                        (insert (propertize (format "%s  " (format "Successful in %s."
+                                                                                                   (code-review-utils--elapsed-time .completedAt .startedAt)))
+                                                                            'font-lock-face 'magit-dimmed))
+                                                        (insert (propertize ":white_check_mark: Details"
+                                                                            'font-lock-face 'code-review-checker-detail-face
+                                                                            'mouse-face 'highlight
+                                                                            'help-echo "Visit the page for details"
+                                                                            'keymap 'code-review-commit-check-detail-section-map)))
+                                                    (progn
+                                                      (insert (propertize (format "%-7s %s / %s" "" .checkSuite.workflowRun.workflow.name .title)
+                                                                          'font-lock-face 'code-review-checker-name-face))
+                                                      (insert " - ")
+                                                      (insert (propertize (format "%s  " .summary)
+                                                                          'font-lock-face 'magit-dimmed))
+                                                      (insert (propertize ":x: Details"
+                                                                          'font-lock-face 'code-review-checker-detail-face
+                                                                          'mouse-face 'highlight
+                                                                          'help-echo "Visit the page for details"
+                                                                          'keymap 'code-review-commit-check-detail-section-map))))))
+                                              (insert "\n"))))
+                                      (progn
+                                        (insert (propertize (format "%-6s " (oref obj sha)) 'font-lock-face 'magit-hash))
+                                        (insert (oref obj msg))
+                                        (insert ?\n)))))))
         (insert ?\n)))))
 
 ;; description
@@ -900,7 +900,7 @@ INDENT count of spaces are added at the start of every line."
 (defclass code-review-files-report-section (magit-section)
   (()))
 
- ;; -
+;; -
 
 (defclass code-review-base-comment-section (magit-section)
   ((state      :initarg :state
@@ -1340,51 +1340,50 @@ Optionally DELETE? flag must be set if you want to remove it."
                amount-new-loc))
 
         (magit-insert-section outdated-section (code-review-outdated-hunk-section metadata1)
-          (let ((heading (format "Reviewed - [OUTDATED]")))
-            (add-face-text-property 0 (length heading)
-                                    'code-review-outdated-comment-heading
-                                    t heading)
-            (magit-insert-heading heading)
-            (magit-insert-section ()
-              (save-excursion
-                (insert safe-hunk))
-              (magit-diff-wash-hunk)
-              (insert ?\n)
+                              (let ((heading (format "Reviewed - [OUTDATED]")))
+                                (add-face-text-property 0 (length heading)
+                                                        'code-review-outdated-comment-heading
+                                                        t heading)
+                                (magit-insert-heading heading)
+                                (magit-insert-section ()
+                                  (save-excursion
+                                    (insert safe-hunk))
+                                  (insert ?\n)
 
-              (oset outdated-section hidden t)
+                                  (oset outdated-section hidden t)
 
-              (dolist (c (alist-get safe-hunk hunk-groups nil nil 'equal))
-                (let* ((written-loc (code-review--html-written-loc
-                                     (oref c msg)
-                                     (* 3 code-review-section-indent-width)))
-                       (amount-new-loc-outdated-partial (+ 1 written-loc))
-                       (amount-new-loc-outdated (if (oref c reactions)
-                                                    (+ 2 amount-new-loc-outdated-partial)
-                                                  amount-new-loc-outdated-partial)))
+                                  (dolist (c (alist-get safe-hunk hunk-groups nil nil 'equal))
+                                    (let* ((written-loc (code-review--html-written-loc
+                                                         (oref c msg)
+                                                         (* 3 code-review-section-indent-width)))
+                                           (amount-new-loc-outdated-partial (+ 1 written-loc))
+                                           (amount-new-loc-outdated (if (oref c reactions)
+                                                                        (+ 2 amount-new-loc-outdated-partial)
+                                                                      amount-new-loc-outdated-partial)))
 
-                  (setq amount-loc-internal (+ amount-loc-internal amount-new-loc-outdated))
+                                      (setq amount-loc-internal (+ amount-loc-internal amount-new-loc-outdated))
 
-                  (setq code-review-section-hold-written-comment-count
-                        (code-review-utils--comment-update-written-count
-                         code-review-section-hold-written-comment-count
-                         (oref first-hunk-commit path)
-                         amount-new-loc-outdated))
-                  (oset c amount-loc amount-loc-internal)
+                                      (setq code-review-section-hold-written-comment-count
+                                            (code-review-utils--comment-update-written-count
+                                             code-review-section-hold-written-comment-count
+                                             (oref first-hunk-commit path)
+                                             amount-new-loc-outdated))
+                                      (oset c amount-loc amount-loc-internal)
 
-                  (magit-insert-section (code-review-outdated-comment-section c)
-                    (magit-insert-heading (format "Reviewed by %s[%s]:"
-                                                  (oref c author)
-                                                  (oref c state)))
-                    (magit-insert-section (code-review-outdated-comment-section c)
-                      (code-review--insert-html
-                       (oref c msg)
-                       (* 3 code-review-section-indent-width))
-                      (when-let (reactions-obj (oref c reactions))
-                        (code-review-comment-insert-reactions
-                         reactions-obj
-                         "outdated-comment"
-                         (oref c id)))))
-                  (insert ?\n))))))))))
+                                      (magit-insert-section (code-review-outdated-comment-section c)
+                                        (magit-insert-heading (format "Reviewed by %s[%s]:"
+                                                                      (oref c author)
+                                                                      (oref c state)))
+                                        (magit-insert-section (code-review-outdated-comment-section c)
+                                          (code-review--insert-html
+                                           (oref c msg)
+                                           (* 3 code-review-section-indent-width))
+                                          (when-let (reactions-obj (oref c reactions))
+                                            (code-review-comment-insert-reactions
+                                             reactions-obj
+                                             "outdated-comment"
+                                             (oref c id)))))
+                                      (insert ?\n))))))))))
 
 (defun code-review-section-insert-outdated-comment-missing (path-name missing-paths grouped-comments)
   "Write missing outdated comments in the end of the current path.
@@ -1513,6 +1512,7 @@ Argument GROUPED-COMMENTS comments grouped by path and diff position."
           (setq head-pos adjusted-pos)
           (setq path-name path-name)))
 
+      ()
       (when (not head-pos)
         (code-review-utils--log
          "code-review-section--magit-diff-wash-hunk"
@@ -1534,57 +1534,57 @@ Please Report this Bug" path-name))
         (magit-insert-section section (hunk `((value . ,value)
                                               (path . ,path-name)
                                               (head-pos . ,head-pos)))
-          (insert (propertize (concat heading "\n")
-                              'font-lock-face 'magit-diff-hunk-heading))
-          (magit-insert-heading)
-          (while (not (or (eobp) (looking-at "^[^-+\s\\]")))
+                              (insert (propertize (concat heading "\n")
+                                                  'font-lock-face 'magit-diff-hunk-heading))
+                              (magit-insert-heading)
+                              (while (not (or (eobp) (looking-at "^[^-+\s\\]")))
           ;;; --- beg -- code-review specific code.
           ;;; code-review specific code.
           ;;; add code comments
-            (let* ((comment-written-pos
-                    (or (alist-get path-name code-review-section-hold-written-comment-count nil nil 'equal) 0))
-                   (diff-pos (+ 1 (- (code-review--line-number-at-pos)
-                                     (or head-pos 0)
-                                     comment-written-pos)))
-                   (path-pos (code-review-utils--comment-key path-name diff-pos))
-                   (written? (-contains-p code-review-section-hold-written-comment-ids path-pos))
-                   (grouped-comment (code-review-utils--comment-get
-                                     code-review-section-grouped-comments
-                                     path-pos)))
-              (if (and (not written?)
-                       grouped-comment
-                       code-review-section--display-all-comments)
-                  (progn
-                    (push path-pos code-review-section-hold-written-comment-ids)
-                    (code-review-section-insert-comment
-                     grouped-comment
-                     comment-written-pos))
-                (forward-line))))
+                                (let* ((comment-written-pos
+                                        (or (alist-get path-name code-review-section-hold-written-comment-count nil nil 'equal) 0))
+                                       (diff-pos (+ 1 (- (code-review--line-number-at-pos)
+                                                         (or head-pos 0)
+                                                         comment-written-pos)))
+                                       (path-pos (code-review-utils--comment-key path-name diff-pos))
+                                       (written? (-contains-p code-review-section-hold-written-comment-ids path-pos))
+                                       (grouped-comment (code-review-utils--comment-get
+                                                         code-review-section-grouped-comments
+                                                         path-pos)))
+                                  (if (and (not written?)
+                                           grouped-comment
+                                           code-review-section--display-all-comments)
+                                      (progn
+                                        (push path-pos code-review-section-hold-written-comment-ids)
+                                        (code-review-section-insert-comment
+                                         grouped-comment
+                                         comment-written-pos))
+                                    (forward-line))))
 
           ;;; we can have outdated comments missing that were written in a
           ;;; version of the buffer that had more lines than now.
           ;;; call function to write the remaining comments.
           ;;; important to only consider comments for this path.
-          (when-let (missing-paths (code-review-utils--missing-outdated-commments?
-                                    path-name
-                                    code-review-section-hold-written-comment-ids
-                                    code-review-section-grouped-comments))
-            (when (and (eobp)
-                       code-review-section--display-all-comments)
-              (code-review-section-insert-outdated-comment-missing
-               path-name
-               missing-paths
-               code-review-section-grouped-comments)))
+                              (when-let (missing-paths (code-review-utils--missing-outdated-commments?
+                                                        path-name
+                                                        code-review-section-hold-written-comment-ids
+                                                        code-review-section-grouped-comments))
+                                (when (and (eobp)
+                                           code-review-section--display-all-comments)
+                                  (code-review-section-insert-outdated-comment-missing
+                                   path-name
+                                   missing-paths
+                                   code-review-section-grouped-comments)))
 
         ;;; --- end -- code-review specific code.
-          (oset section end (point))
-          (oset section washer 'magit-diff-paint-hunk)
-          (oset section combined combined)
-          (if combined
-              (oset section from-ranges (butlast ranges))
-            (oset section from-range (car ranges)))
-          (oset section to-range (car (last ranges)))
-          (oset section about about))))
+                              (oset section end (point))
+                              (oset section washer 'magit-diff-paint-hunk)
+                              (oset section combined combined)
+                              (if combined
+                                  (oset section from-ranges (butlast ranges))
+                                (oset section from-range (car ranges)))
+                              (oset section to-range (car (last ranges)))
+                              (oset section about about))))
     t))
 
 ;;; * build buffer
@@ -1617,13 +1617,13 @@ If you want to display a minibuffer MSG in the end."
               (insert (code-review-db--pullreq-raw-diff))
               (insert ?\n))
             (magit-insert-section section (code-review--root-section)
-              (magit-insert-section (code-review)
-                (magit-run-section-hook 'code-review-sections-hook))
-              (magit-insert-section (code-review-files-report-section)
-                (code-review-section-insert-files-changed)
-                (magit-insert-section (code-review-files-chnged)
-                  (magit-wash-sequence
-                   (apply-partially #'magit-diff-wash-diff ())))))
+                                  (magit-insert-section (code-review)
+                                    (magit-run-section-hook 'code-review-sections-hook))
+                                  (magit-insert-section (code-review-files-report-section)
+                                    (code-review-section-insert-files-changed)
+                                    (magit-insert-section (code-review-files-chnged)
+                                      (magit-wash-sequence
+                                       (apply-partially #'magit-diff-wash-diff ())))))
             (if window
                 (progn
                   (pop-to-buffer buff-name)
@@ -1677,16 +1677,16 @@ If you want to display a minibuffer MSG in the end."
 
     (when errors-complete-query
       (code-review-utils--log "code-review--internal-build"
-                        (format "Data returned by GraphQL API: \n %s" (prin1-to-string res)))
+                              (format "Data returned by GraphQL API: \n %s" (prin1-to-string res)))
       (message "GraphQL Github data contains errors. See `code-review-log-file' for details."))
 
     ;; verify must have value!
     (let-alist raw-infos
       (when (not .headRefOid)
         (code-review-utils--log "code-review--internal-build"
-                          "Commit SHA not returned by GraphQL Github API. See `code-review-log-file' for details")
+                                "Commit SHA not returned by GraphQL Github API. See `code-review-log-file' for details")
         (code-review-utils--log "code-review--internal-build"
-                          (format "Data returned by GraphQL API: \n %s" (prin1-to-string res)))
+                                (format "Data returned by GraphQL API: \n %s" (prin1-to-string res)))
         (error "Missing required data")))
 
     ;; 1. save raw diff data
@@ -1791,43 +1791,43 @@ If you want to provide a MSG for the end of the process."
             (progress (make-progress-reporter "Fetch diff PR..." 1 6)))
         (progress-reporter-update progress 1)
         (deferred:$
-          (deferred:parallel
-            (lambda () (code-review-diff-deferred obj))
-            (lambda () (code-review-infos-deferred obj))
-            (lambda () (code-review-infos-deferred obj t)))
-          (deferred:nextc it
-            (lambda (x)
-              (when code-review-log-raw-request-responses
-                (code-review-utils--log
-                 "code-review--build-buffer: [DIFF]"
-                 (prin1-to-string (-first-item x)))
-                (code-review-utils--log
-                 "code-review--build-buffer: [INFOS_main]"
-                 (prin1-to-string (-second-item x)))
-                (code-review-utils--log
-                 "code-review--build-buffer: [INFOS_fallback]"
-                 (prin1-to-string (-third-item x))))
+         (deferred:parallel
+          (lambda () (code-review-diff-deferred obj))
+          (lambda () (code-review-infos-deferred obj))
+          (lambda () (code-review-infos-deferred obj t)))
+         (deferred:nextc it
+                         (lambda (x)
+                           (when code-review-log-raw-request-responses
+                             (code-review-utils--log
+                              "code-review--build-buffer: [DIFF]"
+                              (prin1-to-string (-first-item x)))
+                             (code-review-utils--log
+                              "code-review--build-buffer: [INFOS_main]"
+                              (prin1-to-string (-second-item x)))
+                             (code-review-utils--log
+                              "code-review--build-buffer: [INFOS_fallback]"
+                              (prin1-to-string (-third-item x))))
 
-              (progress-reporter-update progress 2)
-              (if (code-review--auth-token-set? obj x)
-                  (progn
-                    (progress-reporter-done progress)
-                    (message "Required %s token. Look at the README for how to setup your Personal Access Token"
-                             (cond
-                              ((code-review-github-repo-p obj)
-                               "Github")
-                              ((code-review-gitlab-repo-p obj)
-                               "Gitlab")
-                              (t "Unknown"))))
-                (code-review--internal-build obj progress x buff-name msg))))
-          (deferred:error it
-            (lambda (err)
-              (code-review-utils--log
-               "code-review--build-buffer"
-               (prin1-to-string err))
-              (if (and (sequencep err) (string-prefix-p "BUG: Unknown extended header:" (-second-item err)))
-                  (message "Your PR might have diffs too large. Currently not supported.")
-                (message "Got an error from your VC provider. Check `code-review-log-file'.")))))))))
+                           (progress-reporter-update progress 2)
+                           (if (code-review--auth-token-set? obj x)
+                               (progn
+                                 (progress-reporter-done progress)
+                                 (message "Required %s token. Look at the README for how to setup your Personal Access Token"
+                                          (cond
+                                           ((code-review-github-repo-p obj)
+                                            "Github")
+                                           ((code-review-gitlab-repo-p obj)
+                                            "Gitlab")
+                                           (t "Unknown"))))
+                             (code-review--internal-build obj progress x buff-name msg))))
+         (deferred:error it
+                         (lambda (err)
+                           (code-review-utils--log
+                            "code-review--build-buffer"
+                            (prin1-to-string err))
+                           (if (and (sequencep err) (string-prefix-p "BUG: Unknown extended header:" (-second-item err)))
+                               (message "Your PR might have diffs too large. Currently not supported.")
+                             (message "Got an error from your VC provider. Check `code-review-log-file'.")))))))))
 
 ;;; * commit buffer
 ;;; TODO this whole feature should be reviewed.
