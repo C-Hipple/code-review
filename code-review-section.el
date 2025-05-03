@@ -1614,8 +1614,21 @@ If you want to display a minibuffer MSG in the end."
                  (inhibit-read-only t))
             (save-excursion
               (erase-buffer)
-              (insert (code-review-db--pullreq-raw-diff))
-              (insert ?\n))
+              (let ((beg (point))
+                    (raw-diff-value (code-review-db--pullreq-raw-diff)))
+                (message "hurrrrr")
+                ;; (message (prin1-to-string raw-diff-value))
+                ;; (message "here?")
+                ;; (message (prin1-to-string (point)))
+                (insert raw-diff-value)
+                ;; (message (prin1-to-string (point)))
+                (message "here!")
+                (insert ?\n)
+                (message (prin1-to-string beg))
+                (delta-wash beg (point))
+                (message "done washing")
+                ))
+            (message"hurr 3")
             (magit-insert-section section (code-review--root-section)
                                   (magit-insert-section (code-review)
                                     (magit-run-section-hook 'code-review-sections-hook))
@@ -1844,6 +1857,25 @@ If you want to provide a MSG for the end of the process."
     (with-slots (value) (magit-current-section)
       (code-review-db-delete-raw-comment (oref value internalId))
       (code-review--build-buffer))))
+
+
+(defun delta-wash (beg end)
+  "Call delta on region and convert ANSI escape sequences to overlays.
+
+The region contents are expected to be raw git output.
+
+Copied from magit-delta with minimal modifications
+this works when you do git diff origin/main > ex.txt and then call it on that file selecting it.
+"
+  (interactive "r")
+  (apply #'call-process-region
+         beg end
+         magit-delta-delta-executable t t nil (magit-delta--make-delta-args))
+  (let ((buffer-read-only nil))
+    (message "hurr 2")
+    (xterm-color-colorize-buffer 'use-overlays)
+    (if magit-delta-hide-plus-minus-markers
+        (magit-delta-hide-plus-minus-markers))))
 
 (provide 'code-review-section)
 ;;; code-review-section.el ends here
