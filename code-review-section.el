@@ -1850,6 +1850,5 @@ If you want to provide a MSG for the end of the process."
       (code-review-db-delete-raw-comment (oref value internalId))
       (code-review--build-buffer))))
 
-
 (provide 'code-review-section)
 ;;; code-review-section.el ends here
