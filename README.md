@@ -199,3 +199,10 @@ stewardship. Github Review made me more familiar with the problem domain and
 
 Thanks [Ag Ibragimov](https://github.com/agzam) for the amazing idea to use
 `magit-section` to build a more suitable interface to this problem.
+
+
+# Using Delta for syntax highlighting
+
+[Delta](https://github.com/dandavison/delta/pull) is a CLI for general syntax highlighting.  [Magit-Delta](https://github.com/dandavison/magit-delta) is an emacs
+
+To use delta for highlighting, install both of these and ensure that delta is discoverable on the path.
