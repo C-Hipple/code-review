@@ -701,31 +701,31 @@ Optionally ask for the FALLBACK? query."
   "Submit replies to review comments inline given REPLIES and a CALLBACK fn."
   (let ((pr (oref replies pr)))
     (deferred:$
-      (deferred:parallel
-        (-map
-         (lambda (reply)
-           (lambda ()
-             (ghub-post (format "/repos/%s/%s/pulls/%s/comments/%s/replies"
-                                (oref pr owner)
-                                (oref pr repo)
-                                (oref pr number)
-                                (oref reply reply-to-id))
-                        nil
-                        :payload (a-alist 'body (oref reply body))
-                        :headers code-review-github-diffheader
-                        :auth code-review-auth-login-marker
-                        :host code-review-github-host
-                        :callback (lambda (&rest _))
-                        :errorback #'code-review-github-errback)))
-         (oref replies replies)))
+     (deferred:parallel
+      (-map
+       (lambda (reply)
+         (lambda ()
+           (ghub-post (format "/repos/%s/%s/pulls/%s/comments/%s/replies"
+                              (oref pr owner)
+                              (oref pr repo)
+                              (oref pr number)
+                              (oref reply reply-to-id))
+                      nil
+                      :payload (a-alist 'body (oref reply body))
+                      :headers code-review-github-diffheader
+                      :auth code-review-auth-login-marker
+                      :host code-review-github-host
+                      :callback (lambda (&rest _))
+                      :errorback #'code-review-github-errback)))
+       (oref replies replies)))
 
-      (deferred:nextc it
-        (lambda (_x)
-          (funcall callback)))
+     (deferred:nextc it
+                     (lambda (_x)
+                       (funcall callback)))
 
-      (deferred:error it
-        (lambda (err)
-          (message "Got an error from the Github Reply API %S!" err))))))
+     (deferred:error it
+                     (lambda (err)
+                       (message "Got an error from the Github Reply API %S!" err))))))
 
 (defclass code-review-submit-github-review ()
   ((state :initform nil)
@@ -761,7 +761,7 @@ Optionally ask for the FALLBACK? query."
                        (oref pr number))
                nil
                :auth code-review-auth-login-marker
-               :payload payload
+               :payload (json-encode payload)
                :host code-review-github-host
                :errorback #'code-review-github-errback
                :callback callback)))
