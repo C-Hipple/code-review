@@ -146,7 +146,7 @@ OUTDATED."
     ("m r" "Merge Rebase" code-review-merge-rebase)
     ("m s" "Merge Squash" code-review-merge-squash)]]
   ["Fast track"
-   ("l" "LGTM - Approved" code-review-submit-lgtm)
+   ;; ("l" "LGTM - Approved" code-review-submit-lgtm)
    ("p" "Submit Replies" code-review-submit-only-replies)
    ("s c" "Single Comment, immediately sent" code-review-submit-single-top-level-comment)
    ("s C" "Single Diff Comment, immediately sent" code-review-submit-single-diff-comment-at-point)]
