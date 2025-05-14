@@ -92,10 +92,16 @@ Change how `code-review` splits the buffer when opening a new PR. Defaults to
 (setq code-review-new-buffer-window-strategy #'switch-to-buffer)
 ```
 
-Change the destination where binary files is downloaded.
+Change the destination where binary files are downloaded.
 
 ``` emacs-lisp
 (setq code-review-download-dir "/tmp/code-review/")
+```
+
+Change whether or not outdated comments are shown in the diff.  Default is to not show comments.
+
+```emacs-lisp
+(setq code-review-section-display-outdated-comments nil)
 ```
 
 
