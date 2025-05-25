@@ -195,6 +195,14 @@ The package allows you to write integration with other forges to leverage these
 functionalities. Take a look at `code-review-interfaces.el` to see which functions
 need to be implemented.
 
+# Hooks
+
+Code-Review exposes 2 hooks:
+
+`code-review-mode-hook` which runs on the initial entry of a code-review (when the mode is applied, after the buffer is populated.)
+
+`code-review-post-render-hook` which runs each time the buffer is updated, such as initial launch, or when a comment is added or deleted locally.
+
 
 # Thanks
 

@@ -178,6 +178,9 @@ to 'forge."
     (set-keymap-parent map magit-section-mode-map)
     map))
 
+(defvar code-review-post-render-hook 'nil
+  "Hook that runs after each time the code-review buffer updates.")
+
 (define-derived-mode code-review-mode magit-section-mode "Code Review"
   "Code Review mode.")
 
