@@ -99,18 +99,6 @@ to 'forge."
   :type 'symbol)
 
 ;;; Entrypoint
-
-;;;###autoload
-(defun code-review-forge-pr-at-point ()
-  "Review the forge pull request at point.
-OUTDATED."
-  (interactive)
-  (let ((code-review-section-full-refresh? t)
-        (pr-alist (code-review-utils--alist-forge-at-point)))
-    (code-review-auth-source-debug)
-    (code-review-utils-build-obj pr-alist)
-    (code-review--build-buffer code-review-buffer-name)))
-
 ;;;###autoload
 (defun code-review-start (url)
   "Start review given PR URL."
@@ -121,7 +109,23 @@ OUTDATED."
     (code-review-auth-source-debug)
     (code-review-utils-build-obj-from-url url)
     (code-review--build-buffer
-     code-review-buffer-name)))
+     code-review-buffer-name))
+  (message "finished code-review-start"))
+
+;;;###autoload
+(defun code-review-start-at-point ()
+  "Attempt to extract a github review from the current line and start a review there."
+  (interactive)
+  (let (
+        (current-line (thing-at-point 'line t))
+        (pattern "https://github\\.com/[^/]+/\\([^/]+\\)/pull/[0-9]+")
+        (project-name "")
+        )
+    (when (string-match pattern current-line)
+      (setq project-name (match-string 1 current-line)))
+    (code-review-start current-line)
+    ;; TODO: check if we successfully got the project name
+    (cd (concat "~/" project-name))))
 
 ;;; Commit buffer
 
