@@ -1312,7 +1312,9 @@ Optionally DELETE? flag must be set if you want to remove it."
           (code-review-comment-insert-reactions
            reactions-obj
            "code-comment"
-           (oref obj id)))))))
+           (oref obj id)))
+        ;; This line is for helping anything parsing the code-review buffer to know when comment as ended.
+        (insert "--------------\n")))))
 
 (defun code-review-section-insert-outdated-comment (comments amount-loc)
   "Insert outdated COMMENTS in the buffer of PULLREQ-ID considering AMOUNT-LOC."
