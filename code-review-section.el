@@ -139,6 +139,9 @@ For internal usage only.")
   "Variable to define if we should display diff comments or not.
 For internal usage only.")
 
+(defvar code-review-section-display-outdated-comments nil
+  "Variable to define if we should display outdated comments or not.")
+
 ;; utility functions
 
 (defun code-review--html-written-loc (body &optional indent)
@@ -1405,7 +1408,8 @@ We need PATH-NAME, MISSING-PATHS, and GROUPED-COMMENTS to make this work."
   "Insert COMMENTS to PULLREQ-ID keep the AMOUNT-LOC of comments written.
 A quite good assumption: every comment in an outdated hunk will be outdated."
   (if (and (oref (-first-item comments) outdated?)
-           code-review-section--display-diff-comments)
+           code-review-section--display-diff-comments
+           code-review-section-display-outdated-comments)
       (code-review-section-insert-outdated-comment
        comments
        amount-loc)
