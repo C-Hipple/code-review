@@ -9,7 +9,7 @@ supports Github and basic Gitlab and Bitbucket workflows.
 
 ![Demo of code review package](./docs/code_review_example.png)
 
-Link to same PR on Github: https://github.com/C-Hipple/diff-lsp/pulls/4
+Link to same PR on Github: https://github.com/C-Hipple/diff-lsp/pull/4
 
 # Overview
 
