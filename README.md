@@ -7,9 +7,9 @@
 Package to help you perform code reviews from your VC provider. Currently
 supports Github and basic Gitlab and Bitbucket workflows.
 
-![Demo of code review package](./docs/code_review_demo.png)
+![Demo of code review package](./docs/code_review_example.png)
 
-Link to same PR on Github: https://github.com/wandersoncferreira/dotfiles/pull/5
+Link to same PR on Github: https://github.com/C-Hipple/diff-lsp/pulls/4
 
 # Overview
 
