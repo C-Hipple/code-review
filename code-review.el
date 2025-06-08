@@ -117,19 +117,23 @@ to 'forge."
 (defun code-review-start-at-point ()
   "Attempt to extract a github review from the current line and start a review there."
   (interactive)
-  (let (
-        (current-line (thing-at-point 'line t))
+  (let ((current-line (thing-at-point 'line t))
         (pattern "https://github\\.com/[^/]+/\\([^/]+\\)/pull/[0-9]+")
         (project-name "")
-        )
-    (when (string-match pattern current-line)
-      (setq project-name (match-string 1 current-line)))
-    (code-review-start current-line)
-    ;; TODO: check if we successfully got the project name
-    (cd (concat "~/" project-name))))
+        (project-path ""))
+    (if (string-match pattern current-line)
+        (progn
+          (setq project-name (match-string 1 current-line))
+          (setq project-path (expand-file-name (concat "~/" project-name)))
+
+          (if (file-directory-p project-path)
+              (cd project-path)
+            (message "Directory not found: %s" project-path))
+
+          (code-review-start current-line))
+      (message "No GitHub pull request URL found on this line."))))
 
 ;;; Commit buffer
-
 (define-minor-mode code-review-commit-minor-mode
   "Code Review Commit."
   :keymap (let ((map (make-sparse-keymap)))
