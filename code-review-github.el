@@ -193,7 +193,7 @@ https://github.com/wandersoncferreira/code-review#configuration"))
           login
         }
       }
-      commits(first: 100) {
+      commits(first: 3) {
         totalCount
         nodes {
           commit {
