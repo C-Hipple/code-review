@@ -6,7 +6,7 @@
 ;; Author: Chris Hipple <https://github.com/C-Hipple
 ;; Maintainer: Chris Hipple <https://github.com/C-Hipple
 ;; Created: October 14, 2021
-;; Version: 0.0.9
+;; Version: 0.0.10
 ;; Keywords: git, tools, vc
 ;; Homepage: https://github.com/C-Hipple/code-review
 ;; Package-Requires: ((emacs "25.1") (closql "1.2.0") (magit "3.0.0") (transient "0.3.7") (a "1.0.0") (ghub "3.5.1") (uuidgen "1.2") (deferred "0.5.1") (markdown-mode "2.4") (forge "0.3.0") (emojify "1.2"))
