@@ -1,12 +1,12 @@
 ;;; code-review.el --- Perform code review from Github, Gitlab, and Bitbucket Cloud -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2021 Wanderson Ferreira
+;; Copyright (C) 2025 Chris Hipple
 ;;
 ;; Original Author: Wanderson Ferreira <https://github.com/wandersoncferreira>
 ;; Author: Chris Hipple <https://github.com/C-Hipple
 ;; Maintainer: Chris Hipple <https://github.com/C-Hipple
 ;; Created: October 14, 2021
-;; Version: 0.0.8
+;; Version: 0.0.10
 ;; Keywords: git, tools, vc
 ;; Homepage: https://github.com/C-Hipple/code-review
 ;; Package-Requires: ((emacs "25.1") (closql "1.2.0") (magit "3.0.0") (transient "0.3.7") (a "1.0.0") (ghub "3.5.1") (uuidgen "1.2") (deferred "0.5.1") (markdown-mode "2.4") (forge "0.3.0") (emojify "1.2"))
@@ -117,19 +117,23 @@ to 'forge."
 (defun code-review-start-at-point ()
   "Attempt to extract a github review from the current line and start a review there."
   (interactive)
-  (let (
-        (current-line (thing-at-point 'line t))
+  (let ((current-line (thing-at-point 'line t))
         (pattern "https://github\\.com/[^/]+/\\([^/]+\\)/pull/[0-9]+")
         (project-name "")
-        )
-    (when (string-match pattern current-line)
-      (setq project-name (match-string 1 current-line)))
-    (code-review-start current-line)
-    ;; TODO: check if we successfully got the project name
-    (cd (concat "~/" project-name))))
+        (project-path ""))
+    (if (string-match pattern current-line)
+        (progn
+          (setq project-name (match-string 1 current-line))
+          (setq project-path (expand-file-name (concat "~/" project-name)))
+
+          (if (file-directory-p project-path)
+              (cd project-path)
+            (message "Directory not found: %s" project-path))
+
+          (code-review-start current-line))
+      (message "No GitHub pull request URL found on this line."))))
 
 ;;; Commit buffer
-
 (define-minor-mode code-review-commit-minor-mode
   "Code Review Commit."
   :keymap (let ((map (make-sparse-keymap)))

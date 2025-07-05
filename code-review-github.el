@@ -4,7 +4,7 @@
 ;;
 ;; Author: Wanderson Ferreira <https://github.com/wandersoncferreira>
 ;; Maintainer: Wanderson Ferreira <wand@hey.com>
-;; Version: 0.0.7
+;; Version: 0.0.10
 ;; Homepage: https://github.com/wandersoncferreira/code-review
 ;;
 ;; This file is not part of GNU Emacs.
@@ -193,7 +193,7 @@ https://github.com/wandersoncferreira/code-review#configuration"))
           login
         }
       }
-      commits(first: 100) {
+      commits(first: 3) {
         totalCount
         nodes {
           commit {
