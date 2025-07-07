@@ -547,9 +547,7 @@ BRANCH-NAME is the name of the branch to checkout."
   (let ((project-dir (expand-file-name (concat "~/" project-name))))
     (when (file-directory-p project-dir)
       (cd project-dir)
-      (message "Switched to %s" project-dir)
-      (async-shell-command (concat "git fetch && git checkout " branch-name)))
-    ;; (message "Fetched and checked out %s" branch-name))
+      (shell-command (concat "git fetch && git checkout " branch-name)))
     (unless (file-directory-p project-dir)
       (error "Project directory %s not found" project-dir))))
 
@@ -567,7 +565,6 @@ TODO: This doesn't match if the root branch has a special char in it."
 
 (defun code-review-checkout-current-project ()
   (interactive)
-  (message (code-review--get-ref-name))
   (code-review--switch-and-fetch (projectile-project-name) (code-review--get-ref-name)))
 
 (provide 'code-review-utils)
