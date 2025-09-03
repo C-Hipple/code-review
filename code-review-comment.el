@@ -260,6 +260,8 @@ Optionally define a MSG."
                           "ADDED")
                          (t
                           "UNCHANGED")))
+             (in-comment nil)
+             (test-loc 0)
              (suggestion
               (format "%s\n\n```suggestion\n%s\n```\n"
                       code-review-comment-suggestion-msg
@@ -280,7 +282,7 @@ Optionally define a MSG."
 
 
         (let* ((diff-pos (+ 1 (- current-line
-                                 amount-loc
+                                 (* (/ amount-loc 2) 3) ;; This is a hack since I added the ---- lines
                                  (a-get obj 'head-pos))))
 
                (local-comment (code-review-local-comment-section
@@ -294,6 +296,7 @@ Optionally define a MSG."
           (message (concat "head-pos: " (prin1-to-string (a-get obj 'head-pos))))
           (message (concat "current-line: " (prin1-to-string current-line)))
           (message (concat "amount-loc: " (prin1-to-string amount-loc)))
+          (message (concat "test-loc: " (prin1-to-string test-loc)))
           (message (concat "diff-pos: " (prin1-to-string diff-pos))))))))
 
 ;;;###autoload
