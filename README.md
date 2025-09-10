@@ -209,6 +209,6 @@ Thanks [Ag Ibragimov](https://github.com/agzam) for the amazing idea to use
 
 # Using Delta for syntax highlighting
 
-[Delta](https://github.com/dandavison/delta/pull) is a CLI for general syntax highlighting.  [Magit-Delta](https://github.com/dandavison/magit-delta) is an emacs
+[Delta](https://github.com/dandavison/delta) is a CLI for general syntax highlighting.  [Magit-Delta](https://github.com/dandavison/magit-delta) is an emacs package which I copied the code from to slightly modify and support in this program
 
-To use delta for highlighting, install both of these and ensure that delta is discoverable on the path.
+To use delta for highlighting, install the delta CLI.

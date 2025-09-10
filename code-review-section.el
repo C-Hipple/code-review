@@ -37,13 +37,12 @@
 (require 'code-review-faces)
 (require 'code-review-db)
 (require 'code-review-utils)
+(require 'code-review-delta)
 
 (require 'code-review-interfaces)
 (require 'code-review-github)
 (require 'code-review-gitlab)
 (require 'code-review-bitbucket)
-
-(require 'magit-delta)
 
 (defcustom code-review-section-indent-width 1
   "Indent width for nested sections."
@@ -1626,7 +1625,7 @@ If you want to display a minibuffer MSG in the end."
               (erase-buffer)
               (insert (code-review-db--pullreq-raw-diff))
               (insert ?\n)
-              (magit-delta-call-delta-and-convert-ansi-escape-sequences))
+              (code-review-delta-call-delta-and-convert-ansi-escape-sequences))
             (magit-insert-section section (code-review--root-section)
                                   (magit-insert-section (code-review)
                                     (magit-run-section-hook 'code-review-sections-hook))
