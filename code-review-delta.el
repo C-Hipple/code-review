@@ -72,10 +72,10 @@ will be added if not present."
       (setq args (cons "--color-only" args)))
     args))
 
-(defun code-review-delta-call-delta-and-convert-ansi-escape-sequences ()
+;;;###autoload
+(defun code-review-delta-call-delta ()
   (interactive)
   "Call delta on buffer contents and convert ANSI escape sequences to overlays.
-
 The input buffer contents are expected to be raw git output."
   (apply #'call-process-region
          (point-min) (point-max)
