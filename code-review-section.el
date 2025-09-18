@@ -1625,7 +1625,7 @@ If you want to display a minibuffer MSG in the end."
               (erase-buffer)
               (insert (code-review-db--pullreq-raw-diff))
               (insert ?\n)
-              (code-review-delta-call-delta-and-convert-ansi-escape-sequences))
+              (code-review-delta-call-delta))
             (magit-insert-section section (code-review--root-section)
                                   (magit-insert-section (code-review)
                                     (magit-run-section-hook 'code-review-sections-hook))
