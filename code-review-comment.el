@@ -223,8 +223,10 @@ Optionally define a MSG."
                     (setq amount-loc 0)
                   (setq amount-loc (or (oref value amount-loc) 0)))))))
 
+        ;; we don't actually need the hack since we adjusted in code-review-section
         (let* ((diff-pos (+ 1 (- current-line
                                  amount-loc
+                                 ;; (* (/ amount-loc 2) 3) ;; This is a hack since I added the ---- lines
                                  (a-get obj 'head-pos))))
                (local-comment (code-review-local-comment-section
                                :state "LOCAL COMMENT"
@@ -281,8 +283,10 @@ Optionally define a MSG."
                   (setq amount-loc (or (oref value amount-loc) 0)))))))
 
 
+        ;; we don't actually need the hack since we adjusted in code-review-section
         (let* ((diff-pos (+ 1 (- current-line
-                                 (* (/ amount-loc 2) 3) ;; This is a hack since I added the ---- lines
+                                 amount-loc
+                                 ;; (* (/ amount-loc 2) 3) ;; This is a hack since I added the ---- lines
                                  (a-get obj 'head-pos))))
 
                (local-comment (code-review-local-comment-section

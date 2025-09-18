@@ -1431,7 +1431,7 @@ A quite good assumption: every comment in an outdated hunk will be outdated."
           (let* ((written-loc (code-review--html-written-loc
                                (oref c msg)
                                (* 3 code-review-section-indent-width)))
-                 (amount-loc-incr-partial (+ 1 written-loc))
+                 (amount-loc-incr-partial (+ 2 written-loc)) ;; Increased by 1 for -----, used to be (+ 1 written-loc
                  (amount-loc-incr (if (oref c reactions)
                                       (+ 2 amount-loc-incr-partial)
                                     amount-loc-incr-partial)))
