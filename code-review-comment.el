@@ -282,7 +282,6 @@ Optionally define a MSG."
                     (setq amount-loc 0)
                   (setq amount-loc (or (oref value amount-loc) 0)))))))
 
-
         ;; we don't actually need the hack since we adjusted in code-review-section
         (let* ((diff-pos (+ 1 (- current-line
                                  amount-loc
