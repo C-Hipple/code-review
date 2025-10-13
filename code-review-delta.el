@@ -1,8 +1,8 @@
 ;;; code-reivew-delta.el --- Use Delta when displaying diffs in Code Review -*- lexical-binding: t; -*-
 
-;; Author: Dan Davison <dandavison7@gmail.com>
-;; URL: https://github.com/dandavison/code-review-delta
-;; Version: 0.0.10
+;; Author: Chris Hipple / (copied mostly from Dan Davison <dandavison7@gmail.com>)
+;; URL: https://github.com/C-Hipple/code-review-delta
+;; Version: 0.0.12
 ;; Package-Requires: ((emacs "25.1") (magit "20200426") (xterm-color "2.0"))
 
 ;; SPDX-License-Identifier: MIT
