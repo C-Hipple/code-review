@@ -637,8 +637,10 @@ INDENT count of spaces are added at the start of every line."
   (let ((pr (code-review-db-get-pullreq)))
     (let-alist (oref pr raw-infos)
       (magit-insert-section (code-review-commits-header-section)
-        (insert (propertize "Commits:" 'font-lock-face 'magit-section-heading))
+        (insert (propertize "Most Recent Commit:" 'font-lock-face 'magit-section-heading))
         (magit-insert-heading)
+        ;; TODO Consider only getting the last commit from github anyway
+        ;; Leave here to preserve all providers
         (let ((c (nth (- (length .commits.nodes) 1) .commits.nodes)))
           (let-alist c
             (let* ((sha (a-get-in c (list 'commit 'abbreviatedOid)))
