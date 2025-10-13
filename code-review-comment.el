@@ -223,10 +223,11 @@ Optionally define a MSG."
                     (setq amount-loc 0)
                   (setq amount-loc (or (oref value amount-loc) 0)))))))
 
-        ;; we don't actually need the hack since we adjusted in code-review-section
         (let* ((diff-pos (+ 1 (- current-line
                                  amount-loc
+                                 ;; we don't actually need the hack since we adjusted in code-review-section
                                  ;; (* (/ amount-loc 2) 3) ;; This is a hack since I added the ---- lines
+                                 ;; Left it in the code incase I do need to come back for it.
                                  (a-get obj 'head-pos))))
                (local-comment (code-review-local-comment-section
                                :state "LOCAL COMMENT"
@@ -244,7 +245,7 @@ Optionally define a MSG."
             (code-review-comment-add)))))))
 
 (defun code-review-comment-debugger-add-or-edit (obj)
-  "Add a comment in the OBJ."
+  "This is a debugging function used to seeing the values cacluated when placing a new comment."
   (message "entering debugger")
   ;;; only hunks allowed here
   (with-slots (type) (magit-current-section)
