@@ -167,10 +167,12 @@ Review` buffer.
 
 ## Binding suggestions
 
-You can place `code-review-forge-pr-at-point` to a key binding for your convenience:
+You can place `code-review-start-at-point` to a key binding for your convenience:
+
+Note: I use [gtdbot](https://www.github.com/C-Hipple/gtdbot) to automatically pull my required reviews to a dedicated org file.
 
 ``` emacs-lisp
-(define-key forge-topic-mode-map (kbd "C-c r") 'code-review-forge-pr-at-point)
+(define-key evil-normal-state-map (kbd ", r s") 'code-review-start-at-point)
 ```
 
 If you are not an Evil user you can set the letter `k`, for example, to delete a
@@ -187,6 +189,13 @@ Move between comments using `C-c C-n` and `C-c C-p`
 ``` emacs-lisp
 (define-key code-review-mode-map (kbd "C-c C-n") 'code-review-comment-jump-next)
 (define-key code-review-mode-map (kbd "C-c C-p") 'code-review-comment-jump-previous)
+```
+
+Other helpful binds:
+
+```emacs-lisp
+(define-key code-review-mode-map (kbd "c") 'code-review-comment-add-or-edit)
+(define-key code-review-mode-map (kbd "<return>") 'magit-diff-visit-file)
 ```
 
 # Extension to other forges

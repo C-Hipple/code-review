@@ -1260,7 +1260,8 @@ Optionally DELETE? flag must be set if you want to remove it."
                    code-review-fill-column)))
         (insert l)
         (insert ?\n))
-      (insert "--------------\n"))))
+      (insert "--------------\n")
+      )))
 
 (cl-defmethod code-review-comment-insert-lines ((obj code-review-reply-comment-section))
   "Insert reply comment lines present in the OBJ."
@@ -1276,7 +1277,8 @@ Optionally DELETE? flag must be set if you want to remove it."
         (insert l)
         (insert ?\n))
       (insert ?\n)
-      (insert "--------------\n"))))
+      (insert "--------------\n")
+      )))
 
 (defun code-review-comment-insert-reactions (reactions context-name comment-id)
   "Insert REACTIONS in CONTEXT-NAME identified by COMMENT-ID."
@@ -1317,7 +1319,8 @@ Optionally DELETE? flag must be set if you want to remove it."
            "code-comment"
            (oref obj id)))
         ;; This line is for helping anything parsing the code-review buffer to know when comment as ended.
-        (insert "--------------\n")))))
+        (insert "--------------\n")
+        ))))
 
 (defun code-review-section-insert-outdated-comment (comments amount-loc)
   "Insert outdated COMMENTS in the buffer of PULLREQ-ID considering AMOUNT-LOC."
@@ -1430,7 +1433,7 @@ A quite good assumption: every comment in an outdated hunk will be outdated."
           (let* ((written-loc (code-review--html-written-loc
                                (oref c msg)
                                (* 3 code-review-section-indent-width)))
-                 (amount-loc-incr-partial (+ 1 written-loc))
+                 (amount-loc-incr-partial (+ 2 written-loc)) ;; Increased by 1 for -----, used to be (+ 1 written-loc
                  (amount-loc-incr (if (oref c reactions)
                                       (+ 2 amount-loc-incr-partial)
                                     amount-loc-incr-partial)))

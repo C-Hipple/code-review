@@ -225,6 +225,9 @@ Optionally define a MSG."
 
         (let* ((diff-pos (+ 1 (- current-line
                                  amount-loc
+                                 ;; we don't actually need the hack since we adjusted in code-review-section
+                                 ;; (* (/ amount-loc 2) 3) ;; This is a hack since I added the ---- lines
+                                 ;; Left it in the code incase I do need to come back for it.
                                  (a-get obj 'head-pos))))
                (local-comment (code-review-local-comment-section
                                :state "LOCAL COMMENT"
@@ -241,6 +244,79 @@ Optionally define a MSG."
                   (forward-line -2)))
             (code-review-comment-add)))))))
 
+(defun code-review-comment-debugger-add-or-edit (obj)
+  "This is a debugging function used to seeing the values cacluated when placing a new comment."
+  (message "entering debugger")
+  ;;; only hunks allowed here
+  (with-slots (type) (magit-current-section)
+    (if (not (equal type 'hunk))
+        (message "You can't add text over unspecified region.")
+      (let* ((current-line (line-number-at-pos))
+             (line (save-excursion
+                     (buffer-substring-no-properties
+                      (line-beginning-position)
+                      (line-end-position))))
+             (line-type (cond
+                         ((string-prefix-p "-" line)
+                          "REMOVED")
+                         ((string-prefix-p "+" line)
+                          "ADDED")
+                         (t
+                          "UNCHANGED")))
+             (in-comment nil)
+             (test-loc 0)
+             (suggestion
+              (format "%s\n\n```suggestion\n%s\n```\n"
+                      code-review-comment-suggestion-msg
+                      (substring line 1)))
+             (amount-loc nil))
+        (save-excursion
+          (while (and (not (looking-at
+                            "Comment by\\|Reviewed by\\|Reply by\\|modified\\|new file\\|deleted"))
+                      (not (equal (point) (point-min))))
+            (forward-line -1))
+          (let ((section (magit-current-section)))
+            (if (not section)
+                (setq amount-loc 0)
+              (with-slots (type value) section
+                (if (equal type 'file)
+                    (setq amount-loc 0)
+                  (setq amount-loc (or (oref value amount-loc) 0)))))))
+
+        ;; we don't actually need the hack since we adjusted in code-review-section
+        (let* ((diff-pos (+ 1 (- current-line
+                                 amount-loc
+                                 ;; (* (/ amount-loc 2) 3) ;; This is a hack since I added the ---- lines
+                                 (a-get obj 'head-pos))))
+
+               (local-comment (code-review-local-comment-section
+                               :state "LOCAL COMMENT"
+                               :author (code-review-utils--git-get-user)
+                               :path (a-get obj 'path)
+                               :position diff-pos
+                               :line-type line-type
+                               :send? code-review-comment-send?)))
+
+          (message (concat "head-pos: " (prin1-to-string (a-get obj 'head-pos))))
+          (message (concat "current-line: " (prin1-to-string current-line)))
+          (message (concat "amount-loc: " (prin1-to-string amount-loc)))
+          (message (concat "test-loc: " (prin1-to-string test-loc)))
+          (message (concat "diff-pos: " (prin1-to-string diff-pos))))))))
+
+;;;###autoload
+(defun code-review-comment-position-debugger (&optional suggestion-code?)
+  (interactive)
+  (let ((section (magit-current-section)))
+    (with-current-buffer (get-buffer code-review-buffer-name)
+      (setq code-review-comment-cursor-pos (point)
+            code-review-comment-suggestion? suggestion-code?)
+      (with-slots (value) section
+        (if (code-review-reactions-section-p section)
+            (code-review-reactions-reaction-at-point)
+          (code-review-comment-debugger-add-or-edit value))))))
+
+
+(define-key code-review-mode-map (kbd "d") 'code-review-comment-position-debugger)
 
 ;;;###autoload
 (defun code-review-comment-add-or-edit (&optional suggestion-code?)
