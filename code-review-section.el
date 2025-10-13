@@ -639,7 +639,7 @@ INDENT count of spaces are added at the start of every line."
       (magit-insert-section (code-review-commits-header-section)
         (insert (propertize "Commits:" 'font-lock-face 'magit-section-heading))
         (magit-insert-heading)
-        (dolist (c .commits.nodes)
+        (let ((c (nth (- (length .commits.nodes) 1) .commits.nodes)))
           (let-alist c
             (let* ((sha (a-get-in c (list 'commit 'abbreviatedOid)))
                    (msg (a-get-in c (list 'commit 'message)))
