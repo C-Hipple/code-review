@@ -4,7 +4,7 @@
 ;;
 ;; Author: Wanderson Ferreira <https://github.com/wandersoncferreira>
 ;; Maintainer: Wanderson Ferreira <wand@hey.com>
-;; Version: 0.0.12
+;; Version: 0.0.13
 ;; Homepage: https://github.com/wandersoncferreira/code-review
 ;;
 ;; This file is not part of GNU Emacs.
@@ -316,7 +316,7 @@ Optionally define a MSG."
           (code-review-comment-debugger-add-or-edit value))))))
 
 
-(define-key code-review-mode-map (kbd "d") 'code-review-comment-position-debugger)
+;; (define-key code-review-mode-map (kbd "d") 'code-review-comment-position-debugger)
 
 ;;;###autoload
 (defun code-review-comment-add-or-edit (&optional suggestion-code?)
