@@ -1660,7 +1660,15 @@ If you want to display a minibuffer MSG in the end."
 
 (cl-defmethod code-review--auth-token-set? ((_github code-review-github-repo) res)
   "Check if the RES has a message for auth token not set for GITHUB."
-  (string-prefix-p "Required Github token" (-first-item (a-get res 'error))))
+  ;; this is returning nil
+  (message "checking token")
+  (message (prin1-to-string res))
+  (message (prin1-to-string (type-of res)))
+  (let ((token-set (string-prefix-p "Required Github token" (-first-item (a-get res 'error)))))
+    (message (concat "in let" (prin1-to-string (type-of token-set))))
+    (message (concat "in let" (prin1-to-string token-set)))
+    token-set
+    ))
 
 (cl-defmethod code-review--auth-token-set? ((_gitlab code-review-gitlab-repo) res)
   "Check if the RES has a message for auth token not set for GITLAB."
@@ -1805,6 +1813,7 @@ If you want to provide a MSG for the end of the process."
       (let ((obj (code-review-db-get-pullreq))
             (progress (make-progress-reporter "Fetch diff PR..." 1 6)))
         (progress-reporter-update progress 1)
+        (message "hurr")
         (deferred:$
          (deferred:parallel
           (lambda () (code-review-diff-deferred obj))
@@ -1823,9 +1832,12 @@ If you want to provide a MSG for the end of the process."
                               "code-review--build-buffer: [INFOS_fallback]"
                               (prin1-to-string (-third-item x))))
 
+                           (message "hurr2")
                            (progress-reporter-update progress 2)
+                           (message "hurr3")
                            (if (code-review--auth-token-set? obj x)
                                (progn
+                                 (message "hurr4")
                                  (progress-reporter-done progress)
                                  (message "Required %s token. Look at the README for how to setup your Personal Access Token"
                                           (cond
