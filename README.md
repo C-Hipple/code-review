@@ -2,6 +2,15 @@
 [![MELPA](https://melpa.org/packages/code-review-badge.svg)](https://melpa.org/#/code-review)
 ![Tests](https://github.com/wandersoncferreira/code-review/actions/workflows/ci.yml/badge.svg)
 
+# NOTE: Moved my work to my other project
+
+check out [Code Review Server](https://github.com/C-Hipple/code-review-server)
+
+This project is no longer recieving any updates (from me)
+
+
+
+
 # Code Review
 
 Package to help you perform code reviews from your VC provider. Currently
